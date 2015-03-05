@@ -44,11 +44,11 @@
 #-----------------------------------------------------------------------------
 
 gumsclient = "lcmaps_gums_client.mod"
-             "-resourcetype ce"
+             "-resourcetype <%= @gumsclient_resourcetype %>"
              "-actiontype execute-now"
              "-capath /etc/grid-security/certificates"
-             "-cert   /etc/grid-security/hostcert.pem"
-             "-key    /etc/grid-security/hostkey.pem"
+             <% if @gumsclient_cert %>"-cert   <%= @gumsclient_cert %>"<% end %>
+             <% if @gumsclient_key %>"-key    <%= @gumsclient_key %>"<% end %>
              "--cert-owner root"
 # Change this URL to your GUMS server
              "--endpoint <%= @gums_endpoint %>"

@@ -18,9 +18,21 @@
 # [*gsi_authz_conf_manage*]
 #   Whether to manage gsi-authz.conf. Default: true
 #
-# [*gums_endpoint*]
+# [*gumsclient_cert*]
+#   Path to certificate with which host identifies itself when connecting
+#   to the SCAS service. Default: /etc/grid-security/hostcert.pem
+#
+# [*gumsclient_endpoint*]
 #   Full URL to GUMS endpoint.
 #   Default: https://yourgums.yourdomain:8443/gums/services/GUMSXACMLAuthorizationServicePort
+#
+# [*gumsclient_key*]
+#   Path to certificate key with which host identifies itself when connecting
+#   to the SCAS service. Default: /etc/grid-security/hostkey.pem
+#
+# [*gumsclient_resourcetype*]
+#   Resource type identifier. Must be one of rb, ce, se, wn.
+#   Default: ce
 #
 # [*package_name*]
 #   The name of the package to install. Default: lcmaps
@@ -46,23 +58,29 @@
 # Sample Usage:
 #
 class lcmaps (
-    $conf_file              = $lcmaps::params::conf_file,
-    $enable_posix_enf       = $lcmaps::params::enable_posix_enf,
-    $gsi_authz_conf_file    = $lcmaps::params::gsi_authz_conf_file,
-    $gsi_authz_conf_manage  = $lcmaps::params::gsi_authz_conf_manage,
-    $gums_endpoint          = $lcmaps::params::gums_endpoint,
-    $package_name           = $lcmaps::params::package_name,
-    $package_ensure         = $lcmaps::params::package_ensure,
-    $package_plugins        = $lcmaps::params::package_plugins,
-    $package_plugins_ensure = $lcmaps::params::package_plugins_ensure,
-    $saz_endpoint           = $lcmaps::params::saz_endpoint,
+    $conf_file               = $lcmaps::params::conf_file,
+    $enable_posix_enf        = $lcmaps::params::enable_posix_enf,
+    $gsi_authz_conf_file     = $lcmaps::params::gsi_authz_conf_file,
+    $gsi_authz_conf_manage   = $lcmaps::params::gsi_authz_conf_manage,
+    $gumsclient_cert         = $lcmaps::params::gumsclient_cert,
+    $gumsclient_endpoint     = $lcmaps::params::gumsclient_endpoint,
+    $gumsclient_key          = $lcmaps::params::gumsclient_key,
+    $gumsclient_resourcetype = $lcmaps::params::gumsclient_resourcetype,
+    $package_name            = $lcmaps::params::package_name,
+    $package_ensure          = $lcmaps::params::package_ensure,
+    $package_plugins         = $lcmaps::params::package_plugins,
+    $package_plugins_ensure  = $lcmaps::params::package_plugins_ensure,
+    $saz_endpoint            = $lcmaps::params::saz_endpoint,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
     validate_bool($enable_posix_enf)
     validate_absolute_path($gsi_authz_conf_file)
     validate_bool($gsi_authz_conf_manage)
-    validate_string($gums_endpoint)
+    validate_absolute_path($gumsclient_cert)
+    validate_string($gumsclient_endpoint)
+    validate_absolute_path($gumsclient_key)
+    validate_re($gumsclient_resourcetype, [ '^rb$', '^ce$', '^se$', '^wn$' ], 'Error: gumsclient_resourcetype must be one of rb, ce, se, wn')
     validate_string($package_name)
     validate_re($package_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
     validate_re($package_plugins_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
