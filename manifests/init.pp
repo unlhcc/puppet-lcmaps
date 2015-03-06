@@ -70,7 +70,7 @@ class lcmaps (
     $package_ensure          = $lcmaps::params::package_ensure,
     $package_plugins         = $lcmaps::params::package_plugins,
     $package_plugins_ensure  = $lcmaps::params::package_plugins_ensure,
-    $saz_endpoint            = $lcmaps::params::saz_endpoint,
+    $sazclient_endpoint      = $lcmaps::params::sazclient_endpoint,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -84,7 +84,7 @@ class lcmaps (
     validate_string($package_name)
     validate_re($package_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
     validate_re($package_plugins_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
-    validate_string($saz_endpoint)
+    validate_string($sazclient_endpoint)
 
     package { $package_name:
         ensure => $package_ensure,
