@@ -14,6 +14,6 @@ class lcmaps::params {
     $package_ensure          = 'present'
     $package_plugins         = undef
     $package_plugins_ensure  = 'present'
-    $sazclient_endpoint            = 'https://yoursaz.yourdomain:8443/saz/services/SAZXACMLAuthorizationServicePort'
+    $sazclient_endpoint      = 'https://yoursaz.yourdomain:8443/saz/services/SAZXACMLAuthorizationServicePort'
 
 }

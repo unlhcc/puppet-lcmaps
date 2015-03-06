@@ -20,7 +20,8 @@
 #
 # [*gumsclient_cert*]
 #   Path to certificate with which host identifies itself when connecting
-#   to the SCAS service. Default: /etc/grid-security/hostcert.pem
+#   to the SCAS service. Setting to '' will remove it entirely.
+#   Default: /etc/grid-security/hostcert.pem
 #
 # [*gumsclient_endpoint*]
 #   Full URL to GUMS endpoint.
@@ -28,7 +29,8 @@
 #
 # [*gumsclient_key*]
 #   Path to certificate key with which host identifies itself when connecting
-#   to the SCAS service. Default: /etc/grid-security/hostkey.pem
+#   to the SCAS service. Setting to '' will remove it entirely.
+#   Default: /etc/grid-security/hostkey.pem
 #
 # [*gumsclient_resourcetype*]
 #   Resource type identifier. Must be one of rb, ce, se, wn.
@@ -77,9 +79,9 @@ class lcmaps (
     validate_bool($enable_posix_enf)
     validate_absolute_path($gsi_authz_conf_file)
     validate_bool($gsi_authz_conf_manage)
-    validate_absolute_path($gumsclient_cert)
+    validate_string($gumsclient_cert)
     validate_string($gumsclient_endpoint)
-    validate_absolute_path($gumsclient_key)
+    validate_string($gumsclient_key)
     validate_re($gumsclient_resourcetype, [ '^rb$', '^ce$', '^se$', '^wn$' ], 'Error: gumsclient_resourcetype must be one of rb, ce, se, wn')
     validate_string($package_name)
     validate_re($package_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
