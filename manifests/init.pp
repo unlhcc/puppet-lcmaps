@@ -49,11 +49,46 @@
 #   Ensure the package is present, latest, or absent. Default: present
 #
 # [*package_plugins*]
-#   The name(s) of plugin packages to install. Default: <undefined>
+#   The name(s) of plugin packages to install. Default: undef
 #
 # [*package_plugins_ensure*]
 #   Ensure the packages defined in $package_plugins are present, latest, or absent.
 #   Default: present
+#
+# [*gridmapfile*]
+#   Location of the gridmapfile config
+#
+# [*gridmapfile_template*]
+#   Template used to generate gridmapfile.
+#   Default: undef, which prevents puppet from maintaining the file
+#
+# [*vomsmapfile*]
+#   Location of the vomsmapfile config
+#
+# [*vomsmapfile_template*]
+#   Template used to generate vomsmapfile.
+#   Default: undef, which prevents puppet from maintaining the file
+#
+# [*defaultmapfile*]
+#   Location of the defaultmapfile config
+#
+# [*defaultmapfile_template*]
+#   Template used to generate defaultmapfile.
+#   Default: undef, which prevents puppet from maintaining the file
+#
+# [*banfile*]
+#   Location of the banfile config
+#
+# [*banfile_template*]
+#   Template used to generate banfile.
+#   Default: undef, which prevents puppet from maintaining the file
+#
+# [*banvomsfile*]
+#   Location of the banvomsfile config
+#
+# [*banvomsfile_template*]
+#   Template used to generate banvomsfile.
+#   Default: undef, which prevents puppet from maintaining the file
 #
 # Actions:
 #
@@ -76,6 +111,17 @@ class lcmaps (
     $package_ensure               = $lcmaps::params::package_ensure,
     $package_plugins              = $lcmaps::params::package_plugins,
     $package_plugins_ensure       = $lcmaps::params::package_plugins_ensure,
+
+    $gridmapfile                  = $lcmaps::params::gridmapfile,
+    $gridmapfile_template         = $lcmaps::params::gridmapfile_template,
+    $vomsmapfile                  = $lcmaps::params::vomsmapfile,
+    $vomsmapfile_template         = $lcmaps::params::vomsmapfile_template,
+    $defaultmapfile               = $lcmaps::params::defaultmapfile,
+    $defaultmapfile_template      = $lcmaps::params::defaultmapfile_template,
+    $banfile                      = $lcmaps::params::banfile,
+    $banfile_template             = $lcmaps::params::banfile_template,
+    $banvomsfile                  = $lcmaps::params::banvomsfile,
+    $banvomsfile_template         = $lcmaps::params::banvomsfile_template,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -91,6 +137,11 @@ class lcmaps (
     validate_string($package_name)
     validate_re($package_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
     validate_re($package_plugins_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
+    validate_absolute_path($gridmapfile)
+    validate_absolute_path($vomsmapfile)
+    validate_absolute_path($defaultmapfile)
+    validate_absolute_path($banfile)
+    validate_absolute_path($banvomsfile)
 
     package { $package_name:
         ensure => $package_ensure,
@@ -118,6 +169,61 @@ class lcmaps (
             group   => 'root',
             mode    => '0644',
             content => template($gsi_authz_conf_file_template),
+        }
+    }
+
+    if $gridmapfile_template {
+        file { $gridmapfile:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($gridmapfile_template),
+        }
+    }
+
+    if $vomsmapfile_template {
+        file { $vomsmapfile:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($vomsmapfile_template),
+        }
+    }
+
+    if $defaultmapfile_template {
+        file { $defaultmapfile:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($defaultmapfile_template),
+        }
+    }
+
+    if $banfile_template {
+        file { $banfile:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($banfile_template),
+        }
+    }
+
+    if $banvomsfile_template {
+        file { $banvomsfile:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($banvomsfile_template),
         }
     }
 

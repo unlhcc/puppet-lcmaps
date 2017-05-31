@@ -17,4 +17,15 @@ class lcmaps::params {
     $package_plugins              = undef
     $package_plugins_ensure       = 'present'
 
+    $gridmapfile                  = '/etc/grid-security/grid-mapfile'
+    $gridmapfile_template         = undef
+    $vomsmapfile                  = '/etc/grid-security/voms-mapfile'
+    $vomsmapfile_template         = undef
+    $defaultmapfile               = '/usr/share/osg/voms-mapfile-default'
+    $defaultmapfile_template      = undef
+    $banfile                      = '/etc/grid-security/ban-mapfile'
+    $banfile_template             = undef
+    $banvomsfile                  = '/etc/grid-security/ban-voms-mapfile'
+    $banvomsfile_template         = undef
+
 }
