@@ -145,6 +145,7 @@ class lcmaps (
     validate_absolute_path($defaultmapfile)
     validate_absolute_path($banfile)
     validate_absolute_path($banvomsfile)
+    validate_bool($no_gums)
 
     package { $package_name:
         ensure => $package_ensure,
