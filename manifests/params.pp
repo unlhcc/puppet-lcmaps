@@ -16,7 +16,6 @@ class lcmaps::params {
     $package_ensure               = 'present'
     $package_plugins              = undef
     $package_plugins_ensure       = 'present'
-    $no_gums			  = false
 
     $gridmapfile                  = '/etc/grid-security/grid-mapfile'
     $gridmapfile_template         = undef
@@ -28,5 +27,7 @@ class lcmaps::params {
     $banfile_template             = undef
     $banvomsfile                  = '/etc/grid-security/ban-voms-mapfile'
     $banvomsfile_template         = undef
+    $sysconfig_ce_template	  = undef
+    $sysconfig_ce_file		  = '/etc/sysconfig/condor-ce' 
 
 }

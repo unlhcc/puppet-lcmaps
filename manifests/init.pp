@@ -124,7 +124,8 @@ class lcmaps (
     $banfile_template             = $lcmaps::params::banfile_template,
     $banvomsfile                  = $lcmaps::params::banvomsfile,
     $banvomsfile_template         = $lcmaps::params::banvomsfile_template,
-    $no_gums			  = $lcmaps::params::no_gums,
+    $sysconfig_ce_template        = $lcmaps::params::sysconfig_ce_template,
+    $sysconfig_ce_file		  = $lcmaps::params::sysconfig_ce_file
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -145,7 +146,8 @@ class lcmaps (
     validate_absolute_path($defaultmapfile)
     validate_absolute_path($banfile)
     validate_absolute_path($banvomsfile)
-    validate_bool($no_gums)
+    validate_absolute_path($sysconfig_ce_template)
+    validate_absolute_path($sysconfig_ce_file)
 
     package { $package_name:
         ensure => $package_ensure,
@@ -230,14 +232,12 @@ class lcmaps (
             content => template($banvomsfile_template),
         }
     }
-    if ($no_gums) and ($gumsclient_resourcetype == 'ce') {
-
+    if $sysconfig_ce_template {
 	file { '/etc/syconfig/condor-ce':
 	  ensure => present,
-	}->
-	file_line { 'Append lcmaps config line':
-  	path => '/etc/sysconfig/condor-ce',  
-  	line => 'LLGT_VOMS_ENABLE_CREDENTIAL_CHECK=1',
-	}
+          owner  => 'root',
+	  group   => 'root',
+          mode    => '0644',
+          content => template($sysconfig_ce_template),
     }
 }
