@@ -89,9 +89,7 @@
 # [*banvomsfile_template*]
 #   Template used to generate banvomsfile.
 #   Default: undef, which prevents puppet from maintaining the file
-# [*no_gums*] 
-#    Specify is using lcmaps+voms and modify sysconfig
-#    Default: False
+#
 # Actions:
 #
 # Requires:
@@ -125,7 +123,7 @@ class lcmaps (
     $banvomsfile                  = $lcmaps::params::banvomsfile,
     $banvomsfile_template         = $lcmaps::params::banvomsfile_template,
     $sysconfig_ce_template        = $lcmaps::params::sysconfig_ce_template,
-    $sysconfig_ce_file		  = $lcmaps::params::sysconfig_ce_file
+    $sysconfig_ce_file            = $lcmaps::params::sysconfig_ce_file,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -231,14 +229,15 @@ class lcmaps (
             content => template($banvomsfile_template),
         }
     }
+
     if $sysconfig_ce_template {
-	file { $sysconfig_ce_file:
-	  ensure => present,
-          owner  => 'root',
-	  group   => 'root',
-          mode    => '0644',
-          require => Package[$package_name],
-          content => template($sysconfig_ce_template),
-    	}
+        file { $sysconfig_ce_file:
+            ensure  => present,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0644',
+            require => Package[$package_name],
+            content => template($sysconfig_ce_template),
+        }
     }
 }

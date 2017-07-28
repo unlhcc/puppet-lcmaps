@@ -27,7 +27,7 @@ class lcmaps::params {
     $banfile_template             = undef
     $banvomsfile                  = '/etc/grid-security/ban-voms-mapfile'
     $banvomsfile_template         = undef
-    $sysconfig_ce_template	  = undef
-    $sysconfig_ce_file		  = '/etc/sysconfig/condor-ce' 
+    $sysconfig_ce_template        = undef
+    $sysconfig_ce_file            = '/etc/sysconfig/condor-ce'
 
 }
