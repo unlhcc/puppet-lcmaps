@@ -126,3 +126,13 @@ banvomsfile_template
 Template used to generate banvomsfile. If undef puppet will not maintain file.
 - *Default*: undef
 
+sysconfig_ce_template
+------------------
+Template used to generate sysconfig. If undef puppet will not maintain file.
+- *Default*: undef
+
+sysconfig_ce_file            
+------------------
+Location to put sysconfig, useful for setting 
+LLGT_VOMS_ENABLE_CREDENTIAL_CHECK=1
+-  *Default*: /etc/sysconfig/condor-ce 
