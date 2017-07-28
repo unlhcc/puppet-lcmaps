@@ -16,6 +16,7 @@ class lcmaps::params {
     $package_ensure               = 'present'
     $package_plugins              = undef
     $package_plugins_ensure       = 'present'
+    $no_gums			  = false
 
     $gridmapfile                  = '/etc/grid-security/grid-mapfile'
     $gridmapfile_template         = undef

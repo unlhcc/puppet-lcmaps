@@ -89,7 +89,9 @@
 # [*banvomsfile_template*]
 #   Template used to generate banvomsfile.
 #   Default: undef, which prevents puppet from maintaining the file
-#
+# [*no_gums*] 
+#    Specify is using lcmaps+voms and modify sysconfig
+#    Default: False
 # Actions:
 #
 # Requires:
@@ -122,6 +124,7 @@ class lcmaps (
     $banfile_template             = $lcmaps::params::banfile_template,
     $banvomsfile                  = $lcmaps::params::banvomsfile,
     $banvomsfile_template         = $lcmaps::params::banvomsfile_template,
+    $no_gums			  = $lcmaps::params::no_gums,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -226,5 +229,13 @@ class lcmaps (
             content => template($banvomsfile_template),
         }
     }
-
+    if ($no_gums) and ($gumsclient_resourcetype='ce') {
+	file { '/etc/syconfig/condor-ce':
+	  ensure => present,
+	}->
+	file_line { 'Append lcmaps config line':
+  	path => '/etc/sysconfig/condor-ce',  
+  	line => 'file { 'LLGT_VOMS_ENABLE_CREDENTIAL_CHECK=1':
+	}
+    }
 }
