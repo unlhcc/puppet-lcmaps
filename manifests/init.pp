@@ -233,11 +233,13 @@ class lcmaps (
         }
     }
     if $sysconfig_ce_template {
-	file { '/etc/syconfig/condor-ce':
+	file { $sysconfig_ce_file:
 	  ensure => present,
           owner  => 'root',
 	  group   => 'root',
           mode    => '0644',
+          require => Package[$package_name],
           content => template($sysconfig_ce_template),
+    	}
     }
 }
