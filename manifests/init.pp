@@ -146,7 +146,6 @@ class lcmaps (
     validate_absolute_path($defaultmapfile)
     validate_absolute_path($banfile)
     validate_absolute_path($banvomsfile)
-    validate_absolute_path($sysconfig_ce_template)
     validate_absolute_path($sysconfig_ce_file)
 
     package { $package_name:
