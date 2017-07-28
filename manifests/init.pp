@@ -230,9 +230,8 @@ class lcmaps (
             content => template($banvomsfile_template),
         }
     }
-    if ($no_gums) {
+    if ($no_gums) and ($gumsclient_resourcetype == 'ce') {
 
-### Needs logic to determine if ce or se or...
 	file { '/etc/syconfig/condor-ce':
 	  ensure => present,
 	}->
