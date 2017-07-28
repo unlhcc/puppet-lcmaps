@@ -235,7 +235,7 @@ class lcmaps (
 	}->
 	file_line { 'Append lcmaps config line':
   	path => '/etc/sysconfig/condor-ce',  
-  	line => 'file { 'LLGT_VOMS_ENABLE_CREDENTIAL_CHECK=1':
+  	line => 'LLGT_VOMS_ENABLE_CREDENTIAL_CHECK=1',
 	}
     }
 }
