@@ -72,6 +72,13 @@
 # [*defaultmapfile*]
 #   Location of the defaultmapfile config
 #
+# [*defaultmapfile_package*]
+#   Package providing default mapfile
+#   Default: vo-client-lcmaps-voms
+#
+# [*defaultmapfile_package_ensure*]
+#   Ensure the package is present, latest, or absent. Default: present
+#
 # [*defaultmapfile_template*]
 #   Template used to generate defaultmapfile.
 #   Default: undef, which prevents puppet from maintaining the file
@@ -97,33 +104,35 @@
 # Sample Usage:
 #
 class lcmaps (
-    $conf_file                    = $lcmaps::params::conf_file,
-    $conf_file_template           = $lcmaps::params::conf_file_template,
-    $enable_posix_enf             = $lcmaps::params::enable_posix_enf,
-    $gsi_authz_conf_file          = $lcmaps::params::gsi_authz_conf_file,
-    $gsi_authz_conf_file_template = $lcmaps::params::gsi_authz_conf_file_template,
-    $gsi_authz_conf_manage        = $lcmaps::params::gsi_authz_conf_manage,
-    $gumsclient_cert              = $lcmaps::params::gumsclient_cert,
-    $gumsclient_endpoint          = $lcmaps::params::gumsclient_endpoint,
-    $gumsclient_key               = $lcmaps::params::gumsclient_key,
-    $gumsclient_resourcetype      = $lcmaps::params::gumsclient_resourcetype,
-    $package_name                 = $lcmaps::params::package_name,
-    $package_ensure               = $lcmaps::params::package_ensure,
-    $package_plugins              = $lcmaps::params::package_plugins,
-    $package_plugins_ensure       = $lcmaps::params::package_plugins_ensure,
+    $conf_file                     = $lcmaps::params::conf_file,
+    $conf_file_template            = $lcmaps::params::conf_file_template,
+    $enable_posix_enf              = $lcmaps::params::enable_posix_enf,
+    $gsi_authz_conf_file           = $lcmaps::params::gsi_authz_conf_file,
+    $gsi_authz_conf_file_template  = $lcmaps::params::gsi_authz_conf_file_template,
+    $gsi_authz_conf_manage         = $lcmaps::params::gsi_authz_conf_manage,
+    $gumsclient_cert               = $lcmaps::params::gumsclient_cert,
+    $gumsclient_endpoint           = $lcmaps::params::gumsclient_endpoint,
+    $gumsclient_key                = $lcmaps::params::gumsclient_key,
+    $gumsclient_resourcetype       = $lcmaps::params::gumsclient_resourcetype,
+    $package_name                  = $lcmaps::params::package_name,
+    $package_ensure                = $lcmaps::params::package_ensure,
+    $package_plugins               = $lcmaps::params::package_plugins,
+    $package_plugins_ensure        = $lcmaps::params::package_plugins_ensure,
 
-    $gridmapfile                  = $lcmaps::params::gridmapfile,
-    $gridmapfile_template         = $lcmaps::params::gridmapfile_template,
-    $vomsmapfile                  = $lcmaps::params::vomsmapfile,
-    $vomsmapfile_template         = $lcmaps::params::vomsmapfile_template,
-    $defaultmapfile               = $lcmaps::params::defaultmapfile,
-    $defaultmapfile_template      = $lcmaps::params::defaultmapfile_template,
-    $banfile                      = $lcmaps::params::banfile,
-    $banfile_template             = $lcmaps::params::banfile_template,
-    $banvomsfile                  = $lcmaps::params::banvomsfile,
-    $banvomsfile_template         = $lcmaps::params::banvomsfile_template,
-    $sysconfig_ce_template        = $lcmaps::params::sysconfig_ce_template,
-    $sysconfig_ce_file            = $lcmaps::params::sysconfig_ce_file,
+    $gridmapfile                   = $lcmaps::params::gridmapfile,
+    $gridmapfile_template          = $lcmaps::params::gridmapfile_template,
+    $vomsmapfile                   = $lcmaps::params::vomsmapfile,
+    $vomsmapfile_template          = $lcmaps::params::vomsmapfile_template,
+    $defaultmapfile                = $lcmaps::params::defaultmapfile,
+    $defaultmapfile_package        = $lcmaps::params::defaultmapfile_package,
+    $defaultmapfile_package_ensure = $lcmaps::params::defaultmapfile_package_ensure,
+    $defaultmapfile_template       = $lcmaps::params::defaultmapfile_template,
+    $banfile                       = $lcmaps::params::banfile,
+    $banfile_template              = $lcmaps::params::banfile_template,
+    $banvomsfile                   = $lcmaps::params::banvomsfile,
+    $banvomsfile_template          = $lcmaps::params::banvomsfile_template,
+    $sysconfig_ce_template         = $lcmaps::params::sysconfig_ce_template,
+    $sysconfig_ce_file             = $lcmaps::params::sysconfig_ce_file,
     ) inherits lcmaps::params {
 
     validate_absolute_path($conf_file)
@@ -194,6 +203,12 @@ class lcmaps (
             mode    => '0644',
             require => Package[$package_name],
             content => template($vomsmapfile_template),
+        }
+    }
+
+    if $defaultmapfile_package {
+        package { $defaultmapfile_package:
+            ensure => $defaultmapfile_package_ensure,
         }
     }
 
