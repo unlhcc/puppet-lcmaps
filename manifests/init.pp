@@ -135,26 +135,6 @@ class lcmaps (
     $sysconfig_ce_file             = $lcmaps::params::sysconfig_ce_file,
     ) inherits lcmaps::params {
 
-    validate_absolute_path($conf_file)
-    validate_string($conf_file_template)
-    validate_bool($enable_posix_enf)
-    validate_absolute_path($gsi_authz_conf_file)
-    validate_string($gsi_authz_conf_file_template)
-    validate_bool($gsi_authz_conf_manage)
-    validate_string($gumsclient_cert)
-    validate_string($gumsclient_endpoint)
-    validate_string($gumsclient_key)
-    validate_re($gumsclient_resourcetype, [ '^rb$', '^ce$', '^se$', '^wn$' ], 'Error: gumsclient_resourcetype must be one of rb, ce, se, wn')
-    validate_string($package_name)
-    validate_re($package_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
-    validate_re($package_plugins_ensure, [ '^present', '^latest', '^absent' ], 'Error: package_ensure must be either present, latest, or absent')
-    validate_absolute_path($gridmapfile)
-    validate_absolute_path($vomsmapfile)
-    validate_absolute_path($defaultmapfile)
-    validate_absolute_path($banfile)
-    validate_absolute_path($banvomsfile)
-    validate_absolute_path($sysconfig_ce_file)
-
     package { $package_name:
         ensure => $package_ensure,
     }
